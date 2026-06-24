@@ -272,6 +272,23 @@ p {
   margin: 0 0 3px;
 }
 
+/* title doubles as the link to the paper — looks like a title, not a link */
+a.paper-title,
+.paper-title a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+a.paper-title:hover,
+a.paper-title:focus,
+.paper-title a:hover,
+.paper-title a:focus {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: var(--accent-soft);
+  text-underline-offset: 2px;
+}
+
 .paper-meta {
   color: var(--muted);
   font-size: 15px;
