@@ -289,6 +289,22 @@ a.paper-title:focus,
   text-underline-offset: 2px;
 }
 
+/* a small reference link sitting inline next to the title (e.g., NBER version) */
+details.paper > summary .paper-headline {
+  display: block;
+}
+
+details.paper > summary .paper-headline .paper-title {
+  display: inline;
+}
+
+.paper-ref {
+  margin-left: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
 .paper-meta {
   color: var(--muted);
   font-size: 15px;
