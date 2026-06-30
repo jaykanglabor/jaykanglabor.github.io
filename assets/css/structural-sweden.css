@@ -72,7 +72,7 @@ a:focus {
   color: #333;
 }
 
-.toc nav a:nth-child(n+3) {
+.toc nav a.toc-sub {
   padding-left: 12px;
   color: var(--muted);
   font-size: 13px;
@@ -208,7 +208,7 @@ footer {
     grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
   }
 
-  .toc nav a:nth-child(n+3) {
+  .toc nav a.toc-sub {
     padding-left: 0;
   }
 
