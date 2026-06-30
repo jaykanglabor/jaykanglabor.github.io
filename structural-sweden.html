@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Structural Sweden Project</title>
+  <title>Structural Sweden</title>
   <link rel="stylesheet" href="assets/css/structural-sweden.css">
   <script>
     window.MathJax = {
@@ -11,370 +11,305 @@
         inlineMath: [['\\(', '\\)']],
         displayMath: [['\\[', '\\]']]
       },
-      svg: {
-        fontCache: 'global'
-      }
+      svg: { fontCache: 'global' }
     };
   </script>
   <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
-  <header class="site-header">
-    <div class="wrap">
-      <p class="eyebrow">Structural Sweden</p>
-      <h1>Intergenerational Human Capital, Transfers, and Bequests</h1>
-      <p class="lead">
-        A working project page for the current model, estimation plan, and update record.
-      </p>
-      <nav class="top-nav" aria-label="Project sections">
-        <a href="#goal">Goal</a>
-        <a href="#model">Current Model</a>
-        <a href="#estimation">Estimation</a>
-        <a href="#updates">Updates</a>
+  <div class="page">
+    <aside class="toc" aria-label="Table of contents">
+      <a class="toc-title" href="#top">Structural Sweden</a>
+      <nav>
+        <a href="#goal">1 Goal</a>
+        <a href="#model">2 Current Model</a>
+        <a href="#timing">2.1 Timing</a>
+        <a href="#state">2.2 State</a>
+        <a href="#choices">2.3 Choices</a>
+        <a href="#utility">2.4 Utility</a>
+        <a href="#transition">2.5 Human Capital</a>
+        <a href="#dynamic">2.6 Dynamic Problem</a>
+        <a href="#estimation">3 Estimation</a>
+        <a href="#updates">4 Updates</a>
       </nav>
-    </div>
-  </header>
+    </aside>
 
-  <main class="wrap">
-    <section id="goal" class="section">
-      <div class="section-label">1. Goal</div>
-      <h2>Project Goal</h2>
-      <p>
-        The project develops and estimates a structural model of intergenerational human
-        capital formation using Swedish data. The model is designed to connect pre-birth
-        endowments, parental time investment, financial transfers, bequests, education,
-        and labor-market outcomes in one dynamic framework.
-      </p>
-      <p>
-        The empirical target is to decompose how different family resources shape human
-        capital accumulation and later outcomes, then use the estimated model for
-        counterfactual exercises.
-      </p>
+    <main id="top" class="content">
+      <header class="doc-header">
+        <h1>Structural Sweden</h1>
+        <p class="subtitle">Intergenerational human capital, transfers, and bequests</p>
+        <p class="updated">Last updated: 2026-06-30</p>
+      </header>
 
-      <div class="status-strip" aria-label="Current status">
-        <span>Stage: model design and MATLAB prototype</span>
-        <span>Estimator: simulated moments</span>
-        <span>Wiki: initialized 2026-06-30</span>
-      </div>
+      <section id="goal">
+        <h2>1 Goal</h2>
+        <p>
+          This project develops and estimates a structural model of intergenerational
+          human capital formation using Swedish data. The model connects pre-birth
+          endowments, parental time investment, financial transfers, bequests,
+          education, and labor-market outcomes in a dynamic framework.
+        </p>
+        <p>
+          The empirical goal is to decompose how different family resources shape human
+          capital accumulation and later outcomes, then use the estimated model for
+          counterfactual exercises.
+        </p>
+      </section>
 
-      <div class="model-flow" aria-label="Conceptual model flow">
-        <div class="flow-node">
-          <strong>Family background</strong>
-          <span>parent education, income, endowment</span>
+      <section id="model">
+        <h2>2 Current Model</h2>
+        <p>
+          The model below is the current working specification. Several pieces remain
+          provisional, especially the final timing convention, the exact choice set,
+          and the moment vector used in estimation.
+        </p>
+
+        <section id="timing">
+          <h3>2.1 Timing</h3>
+          <p>The provisional timing uses four broad stages.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Period</th>
+                <th>Stage</th>
+                <th>Main object</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>\(t=1\)</td>
+                <td>Basic education</td>
+                <td>Early human capital and ability measures</td>
+              </tr>
+              <tr>
+                <td>\(t=2\)</td>
+                <td>Upper secondary</td>
+                <td>Track, study effort, child work, parental investment</td>
+              </tr>
+              <tr>
+                <td>\(t=3\)</td>
+                <td>Young adulthood</td>
+                <td>Tertiary enrollment, work, parental death/bequest risk</td>
+              </tr>
+              <tr>
+                <td>\(t=4\)</td>
+                <td>Career</td>
+                <td>Adult human capital and earnings</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="state">
+          <h3>2.2 State</h3>
+          <p>
+            A compact state vector for child \(i\) in period \(t\) is:
+          </p>
+          <div class="math">
+            \[
+            s_{it}
+            =
+            \left(
+            t,\,
+            h_{it},\,
+            e_i^f,\,
+            e_i^m,\,
+            e_{it}^c,\,
+            \eta_i,\,
+            z_{it}
+            \right).
+            \]
+          </div>
+          <p>
+            Here \(h_{it}\) is human capital, \(e_i^f\) and \(e_i^m\) are parental
+            education, \(e_{it}^c\) is child education or track, \(\eta_i\) is
+            latent ability or endowment, and \(z_{it}\) collects demographics and
+            institutional states.
+          </p>
+        </section>
+
+        <section id="choices">
+          <h3>2.3 Choices</h3>
+          <p>
+            The intended choice vector is broader than the current MATLAB prototype:
+          </p>
+          <div class="math">
+            \[
+            d_{it}
+            =
+            \left(
+            \ell_{it}^f,\,
+            \ell_{it}^m,\,
+            x_{it},\,
+            m_{it},\,
+            \tau_{it},\,
+            b_{it}
+            \right).
+            \]
+          </div>
+          <p>
+            \(\ell_{it}^f\) and \(\ell_{it}^m\) denote parental labor supply,
+            \(x_{it}\) is child study effort, \(m_{it}\) is parental time investment,
+            \(\tau_{it}\) is an inter-vivo transfer, and \(b_{it}\) is a
+            bequest-related resource.
+          </p>
+          <p class="note">
+            Current MATLAB status: the prototype enumerates 12 terminal choices from
+            father labor supply, mother labor supply, and high/zero transfer. Study
+            time, school track, enrollment, child work, and human-capital transitions
+            are not yet implemented.
+          </p>
+        </section>
+
+        <section id="utility">
+          <h3>2.4 Utility</h3>
+          <p>A general period utility can be written as:</p>
+          <div class="math">
+            \[
+            u_t(s_{it},d_{it})
+            =
+            \omega_p u_p(c_{it}^p,\ell_{it}^f,\ell_{it}^m,m_{it})
+            +
+            \omega_c u_c(c_{it}^c,x_{it},\ell_{it}^c)
+            +
+            \xi_t(d_{it}).
+            \]
+          </div>
+          <p>The current terminal-period code uses the placeholder:</p>
+          <div class="math">
+            \[
+            u_4(y_p,y_c)=\log(y_p)+\log(y_c),
+            \qquad
+            V_T(y_p,y_c)=\alpha_p \log(y_p)+\alpha_c \log(y_c).
+            \]
+          </div>
+        </section>
+
+        <section id="transition">
+          <h3>2.5 Human Capital Transition</h3>
+          <p>The model needs a period-specific human-capital production function:</p>
+          <div class="math">
+            \[
+            h_{i,t+1}
+            =
+            g_t
+            \left(
+            h_{it},\,
+            x_{it},\,
+            m_{it},\,
+            \eta_i,\,
+            e_i^f,\,
+            e_i^m,\,
+            X_{it};
+            \theta_h
+            \right)
+            +
+            \varepsilon^h_{i,t+1}.
+            \]
+          </div>
+          <p>
+            A central open decision is whether ability \(\eta_i\) mainly shifts
+            baseline human capital, raises the productivity of investments, or both.
+          </p>
+        </section>
+
+        <section id="dynamic">
+          <h3>2.6 Dynamic Problem</h3>
+          <p>
+            Given states, choices, transitions, and terminal value, the recursive
+            problem is:
+          </p>
+          <div class="math">
+            \[
+            V_t(s_{it})
+            =
+            \max_{d_{it}\in\mathcal{D}_t(s_{it})}
+            \left\{
+            u_t(s_{it},d_{it})
+            +
+            \beta
+            \mathbb{E}
+            \left[
+            V_{t+1}(s_{i,t+1})
+            \mid s_{it},d_{it}
+            \right]
+            \right\}.
+            \]
+          </div>
+        </section>
+      </section>
+
+      <section id="estimation">
+        <h2>3 Current Estimation Procedure</h2>
+        <p>
+          The current estimation plan is simulated minimum distance / Method of
+          Simulated Moments. For each candidate parameter vector, solve the model,
+          simulate life-cycle histories, construct simulated moments, and compare
+          them to empirical moments.
+        </p>
+        <div class="math">
+          \[
+          \widehat{\theta}
+          =
+          \arg\min_{\theta}
+          \left[
+          m^{data} - m^{sim}(\theta)
+          \right]'
+          W
+          \left[
+          m^{data} - m^{sim}(\theta)
+          \right].
+          \]
         </div>
-        <div class="flow-arrow">to</div>
-        <div class="flow-node">
-          <strong>Investments</strong>
-          <span>time, transfers, study, bequest</span>
-        </div>
-        <div class="flow-arrow">to</div>
-        <div class="flow-node">
-          <strong>Human capital</strong>
-          <span>grades, schooling, skills</span>
-        </div>
-        <div class="flow-arrow">to</div>
-        <div class="flow-node">
-          <strong>Adult outcomes</strong>
-          <span>education, earnings, mobility</span>
-        </div>
-      </div>
-    </section>
+        <ol>
+          <li>Choose a candidate parameter vector \(\theta\).</li>
+          <li>Solve the dynamic model by backward recursion.</li>
+          <li>Simulate households using the policy rules.</li>
+          <li>Compute simulated moments using empirical moment definitions.</li>
+          <li>Evaluate the weighted distance from empirical moments.</li>
+          <li>Update parameters until the objective and diagnostics are stable.</li>
+        </ol>
+      </section>
 
-    <section id="model" class="section">
-      <div class="section-label">2. Current Model</div>
-      <h2>Current Model</h2>
-      <p>
-        This page records the current working model. It is intentionally explicit about
-        provisional pieces: the timing, state space, and choice set still need to be
-        finalized before the MATLAB solver should be treated as canonical.
-      </p>
+      <section id="updates">
+        <h2>4 Updates</h2>
+        <p>
+          Important updates should be committed as separate milestones. Model changes
+          should update this page, the project wiki, and the decision log. Estimation
+          changes should update the moment registry and code map.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Update type</th>
+              <th>Commit message example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Model</td>
+              <td><code>model: revise timing and state space</code></td>
+            </tr>
+            <tr>
+              <td>Estimation</td>
+              <td><code>estimation: define moment block</code></td>
+            </tr>
+            <tr>
+              <td>Code</td>
+              <td><code>code: add solver smoke test</code></td>
+            </tr>
+            <tr>
+              <td>Data</td>
+              <td><code>data: define education variables</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
 
-      <h3>Timing</h3>
-      <p>
-        The provisional timing uses four broad stages:
-      </p>
-      <table>
-        <thead>
-          <tr>
-            <th>Period</th>
-            <th>Stage</th>
-            <th>Main state/outcome</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>\(t=1\)</td>
-            <td>Basic education</td>
-            <td>Early human capital and ability measures</td>
-          </tr>
-          <tr>
-            <td>\(t=2\)</td>
-            <td>Upper secondary</td>
-            <td>Track, study effort, child work, parental investment</td>
-          </tr>
-          <tr>
-            <td>\(t=3\)</td>
-            <td>Young adulthood</td>
-            <td>Tertiary enrollment, work, parental death/bequest risk</td>
-          </tr>
-          <tr>
-            <td>\(t=4\)</td>
-            <td>Career</td>
-            <td>Adult human capital and earnings</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h3>State</h3>
-      <p>
-        A compact state vector for child \(i\) at period \(t\) can be written as:
-      </p>
-      <div class="math-block">
-        \[
-        s_{it}
-        =
-        \left(
-        t,\,
-        h_{it},\,
-        e_i^f,\,
-        e_i^m,\,
-        e_{it}^c,\,
-        \eta_i,\,
-        z_{it}
-        \right),
-        \]
-      </div>
-      <p>
-        where \(h_{it}\) is human capital, \(e_i^f\) and \(e_i^m\) are father and
-        mother education, \(e_{it}^c\) is child education or track, \(\eta_i\) is
-        latent ability or endowment, and \(z_{it}\) collects demographics and
-        institutional states.
-      </p>
-
-      <h3>Choices</h3>
-      <p>
-        The desired choice vector is broader than the current MATLAB prototype:
-      </p>
-      <div class="math-block">
-        \[
-        d_{it}
-        =
-        \left(
-        \ell_{it}^f,\,
-        \ell_{it}^m,\,
-        x_{it},\,
-        m_{it},\,
-        \tau_{it},\,
-        b_{it}
-        \right).
-        \]
-      </div>
-      <p>
-        Here \(\ell_{it}^f\) and \(\ell_{it}^m\) are parental labor supply choices,
-        \(x_{it}\) is child study effort, \(m_{it}\) is parental time investment,
-        \(\tau_{it}\) is an inter-vivo transfer, and \(b_{it}\) is a bequest-related
-        resource.
-      </p>
-
-      <aside class="note">
-        <strong>Current code status.</strong>
-        The MATLAB prototype currently enumerates 12 terminal choices from father labor
-        supply, mother labor supply, and a high/zero transfer. Study time, school track,
-        enrollment, child work, and human-capital transitions are not yet implemented.
-      </aside>
-
-      <h3>Flow Utility</h3>
-      <p>
-        The general period utility can be represented as:
-      </p>
-      <div class="math-block">
-        \[
-        u_t(s_{it}, d_{it})
-        =
-        \omega_p u_p(c_{it}^p, \ell_{it}^f, \ell_{it}^m, m_{it})
-        +
-        \omega_c u_c(c_{it}^c, x_{it}, \ell_{it}^c)
-        +
-        \xi_t(d_{it}),
-        \]
-      </div>
-      <p>
-        where \(c_{it}^p\) is parental consumption, \(c_{it}^c\) is child consumption,
-        and \(\xi_t(d_{it})\) can capture taste shocks or choice-specific costs.
-      </p>
-      <p>
-        The current terminal-period code uses the simpler placeholder:
-      </p>
-      <div class="math-block">
-        \[
-        u_4(y_p,y_c)=\log(y_p)+\log(y_c),
-        \qquad
-        V_T(y_p,y_c)=\alpha_p \log(y_p)+\alpha_c \log(y_c).
-        \]
-      </div>
-
-      <h3>Human Capital Transition</h3>
-      <p>
-        The model needs a period-specific production function:
-      </p>
-      <div class="math-block">
-        \[
-        h_{i,t+1}
-        =
-        g_t
-        \left(
-        h_{it},\,
-        x_{it},\,
-        m_{it},\,
-        \eta_i,\,
-        e_i^f,\,
-        e_i^m,\,
-        X_{it};
-        \theta_h
-        \right)
-        +
-        \varepsilon^h_{i,t+1}.
-        \]
-      </div>
-      <p>
-        A central open modeling decision is whether ability \(\eta_i\) should mainly
-        shift baseline human capital, raise the productivity of investments, or both.
-      </p>
-
-      <h3>Dynamic Problem</h3>
-      <p>
-        Given the state, feasible choices, transition process, and terminal value, the
-        household's recursive problem is:
-      </p>
-      <div class="math-block">
-        \[
-        V_t(s_{it})
-        =
-        \max_{d_{it}\in\mathcal{D}_t(s_{it})}
-        \left\{
-        u_t(s_{it},d_{it})
-        +
-        \beta
-        \mathbb{E}
-        \left[
-        V_{t+1}(s_{i,t+1})
-        \mid s_{it}, d_{it}
-        \right]
-        \right\}.
-        \]
-      </div>
-    </section>
-
-    <section id="estimation" class="section">
-      <div class="section-label">3. Current Estimation Procedure</div>
-      <h2>Current Estimation Procedure</h2>
-      <p>
-        The current estimation plan is simulated minimum distance / Method of Simulated
-        Moments. For each candidate parameter vector, the model is solved, simulated,
-        summarized into moments, and compared to empirical moments from the data.
-      </p>
-
-      <div class="math-block">
-        \[
-        \widehat{\theta}
-        =
-        \arg\min_{\theta}
-        \left[
-        m^{data} - m^{sim}(\theta)
-        \right]'
-        W
-        \left[
-        m^{data} - m^{sim}(\theta)
-        \right].
-        \]
-      </div>
-
-      <ol class="steps">
-        <li>
-          <strong>Choose parameters.</strong>
-          Start from a candidate vector \(\theta\), including utility, production,
-          income, transfer, bequest, and shock parameters.
-        </li>
-        <li>
-          <strong>Solve the model.</strong>
-          Use backward recursion to compute value functions and policy rules.
-        </li>
-        <li>
-          <strong>Simulate households.</strong>
-          Draw shocks, apply policy rules, and generate synthetic life-cycle histories.
-        </li>
-        <li>
-          <strong>Compute simulated moments.</strong>
-          Construct moments using the same definitions as the empirical moments.
-        </li>
-        <li>
-          <strong>Evaluate distance.</strong>
-          Compare \(m^{sim}(\theta)\) with \(m^{data}\) using weighting matrix \(W\).
-        </li>
-        <li>
-          <strong>Update parameters.</strong>
-          Iterate until the objective is minimized and diagnostics are stable.
-        </li>
-      </ol>
-
-      <h3>Moment Registry</h3>
-      <p>
-        The exact moment vector is still open. Candidate blocks include education,
-        grades or ability measures, parental labor supply, transfers, bequests, young
-        adult enrollment/work, and adult earnings by family background.
-      </p>
-    </section>
-
-    <section id="updates" class="section">
-      <div class="section-label">4. Update Discipline</div>
-      <h2>Commit And Update Discipline</h2>
-      <p>
-        Important model, estimation, or data updates should be committed as separate
-        milestones. Each milestone should update this page, the AI wiki, and any
-        affected code or notes.
-      </p>
-      <table>
-        <thead>
-          <tr>
-            <th>Update type</th>
-            <th>Expected files</th>
-            <th>Commit message pattern</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Model change</td>
-            <td>Website, `03_MODEL_SPEC`, decision log</td>
-            <td>`model: revise timing and state space`</td>
-          </tr>
-          <tr>
-            <td>Estimation change</td>
-            <td>Website, `03_MODEL_SPEC/estimation_smm.md`, code map</td>
-            <td>`estimation: add moment block`</td>
-          </tr>
-          <tr>
-            <td>Code milestone</td>
-            <td>MATLAB code, validation tests, code map</td>
-            <td>`code: add solver smoke test`</td>
-          </tr>
-          <tr>
-            <td>Data decision</td>
-            <td>Data map, variable crosswalk, decision log</td>
-            <td>`data: define education variables`</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="wrap">
-      <p>
-        Last updated: 2026-06-30. Sources: `Notes/production_fxn.qmd`,
-        `Notes/note_jay.lyx`, `Meeting/0419Description.lyx`, and
-        `ProjectWiki_for_AI`.
-      </p>
-    </div>
-  </footer>
+      <footer>
+        Sources: project notes, MATLAB prototype, and `ProjectWiki_for_AI`.
+      </footer>
+    </main>
+  </div>
 </body>
 </html>
