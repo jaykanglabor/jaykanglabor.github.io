@@ -430,6 +430,11 @@ details.paper[open] > .paper-body {
   color: var(--accent);
 }
 
+.draft-status {
+  color: #a65d5d;
+  font-style: italic;
+}
+
 /* ---------- Section grids -> simple stacked blocks ---------- */
 
 .section-grid {
